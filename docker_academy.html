@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>Docker Academy — Learn, Practice, Pass</title>
+<style>
+:root{--bg:#0b1220;--panel:#111c2e;--panel2:#17243a;--text:#edf4ff;--muted:#a9b8ce;--line:#2a3b55;--blue:#2496ed;--cyan:#69d5ff;--green:#5ee0a0;--red:#ff7b86;--yellow:#ffd166;--radius:18px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:radial-gradient(ellipse at top right,#142c4b 0,transparent 42%),var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}a{color:var(--cyan)}.wrap{max-width:1200px;margin:auto;padding:0 20px}
+header{position:sticky;top:0;z-index:20;background:#0b1220eF;backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}.nav{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:14px}.brand{display:flex;align-items:center;gap:10px;font-weight:850;font-size:1.1rem}.logo{width:38px;height:30px;border:3px solid var(--blue);border-radius:7px;position:relative;display:grid;place-items:center;color:var(--cyan);font-size:10px;font-weight:900}.logo:before{content:"";position:absolute;width:7px;height:7px;border:2px solid var(--blue);border-radius:2px;top:-10px;left:2px;box-shadow:10px 0 0 -2px var(--bg),10px 0 0 0 var(--blue),20px 0 0 -2px var(--bg),20px 0 0 0 var(--blue)}.navlinks{display:flex;gap:8px;flex-wrap:wrap}.navlinks a{text-decoration:none;color:var(--muted);padding:8px 11px;border-radius:9px;font-size:.92rem}.navlinks a:hover{background:var(--panel2);color:white}
+.hero{padding:62px 0 36px;display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center}.eyebrow{color:var(--cyan);font-weight:800;text-transform:uppercase;letter-spacing:.13em;font-size:.78rem}.hero h1{font-size:clamp(2.2rem,5vw,4.5rem);line-height:1.04;letter-spacing:-.045em;margin:12px 0 18px}.hero h1 span{color:var(--cyan)}.hero p{color:var(--muted);max-width:680px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.btn{border:1px solid var(--line);border-radius:11px;padding:11px 17px;background:var(--panel2);color:var(--text);font-weight:750;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}.btn.primary{background:var(--blue);border-color:var(--blue);color:white}.btn:hover{filter:brightness(1.12)}.terminal{border:1px solid #2c4e70;background:#07101d;border-radius:16px;overflow:hidden;box-shadow:0 24px 80px #0005}.termbar{padding:12px 16px;background:#101d2e;display:flex;align-items:center;gap:7px;color:var(--muted);font-size:.82rem}.dot{width:9px;height:9px;border-radius:50%;background:#ff6b6b}.dot:nth-child(2){background:#ffd166}.dot:nth-child(3){background:#5ee0a0}.termcontent{padding:20px;font:13px/1.9 ui-monospace,SFMono-Regular,Consolas,monospace;overflow:auto}.prompt{color:var(--green)}.cmd{color:var(--cyan)}.comment{color:#7185a0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px auto 38px}.stat{background:var(--panel);border:1px solid var(--line);padding:16px;border-radius:14px}.stat strong{display:block;font-size:1.5rem}.stat span{color:var(--muted);font-size:.86rem}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:25px;align-items:start}.sidebar{position:sticky;top:88px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;max-height:calc(100vh - 105px);overflow:auto}.side-title{font-weight:850;padding:7px 9px 12px}.side-link{display:flex;gap:10px;align-items:center;padding:9px 10px;border-radius:9px;color:var(--muted);text-decoration:none;font-size:.91rem}.side-link:hover,.side-link.active{background:#1c3551;color:white}.side-link .num{font-size:.75rem;color:var(--cyan);min-width:22px}.progressbar{height:7px;background:#26364d;border-radius:8px;overflow:hidden;margin:10px 0}.progressbar div{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .2s}.content{min-width:0}.section{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(18px,3vw,30px);margin-bottom:22px;scroll-margin-top:90px}.section h2{font-size:clamp(1.45rem,3vw,2rem);margin:0 0 8px;line-height:1.2}.section h3{margin:24px 0 8px;font-size:1.12rem}.lead{color:var(--muted);margin-top:0}.pill{display:inline-block;border:1px solid #2c5273;background:#102a42;color:var(--cyan);border-radius:999px;padding:3px 9px;font-size:.76rem;font-weight:800;margin-bottom:12px}.callout{border-left:3px solid var(--blue);background:#10233a;padding:13px 15px;border-radius:0 10px 10px 0;margin:16px 0}.callout.warn{border-color:var(--yellow);background:#332b18}.callout.good{border-color:var(--green);background:#112e2a}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.mini{border:1px solid var(--line);border-radius:13px;padding:15px;background:#0d1727}.mini h3{margin:0 0 5px}.mini p{color:var(--muted);margin:0;font-size:.94rem}pre{white-space:pre;overflow:auto;background:#060e19;border:1px solid #26374e;border-radius:11px;padding:15px;color:#d7eaff;font:13px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#9fe3ff}.copy{float:right;border:1px solid var(--line);background:#15243a;color:var(--text);border-radius:7px;padding:4px 8px;font-size:.78rem}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:520px;font-size:.91rem}th,td{text-align:left;padding:11px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--cyan);background:#0c1727}td{color:#d4deec}.tag{font-size:.75rem;color:var(--green);font-weight:800}.flashcard{border:1px solid var(--line);border-radius:14px;padding:18px;background:#0c1727}.flashcard .answer{display:none;color:var(--green);margin-top:10px}.flashcard.revealed .answer{display:block}.quiz-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:.9rem}.question{font-size:1.15rem;font-weight:800;margin:18px 0}.options{display:grid;gap:10px}.option{width:100%;text-align:left;border:1px solid var(--line);border-radius:11px;padding:12px 14px;background:#0c1727;color:var(--text)}.option:hover:not(:disabled){border-color:var(--blue);background:#142943}.option.correct{border-color:var(--green);background:#12332c}.option.wrong{border-color:var(--red);background:#3b202a}.feedback{margin-top:14px;padding:12px;border-radius:10px;background:#0c1727;color:var(--muted)}.hidden{display:none!important}.quiz-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.search{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:#0b1524;color:var(--text);margin:10px 0 16px}.checklist{display:grid;gap:9px}.checklist label{display:flex;gap:10px;align-items:flex-start;padding:11px;border:1px solid var(--line);border-radius:10px}.checklist input{margin-top:5px;accent-color:var(--blue)}footer{padding:30px 0 50px;color:var(--muted);text-align:center}.small{font-size:.88rem;color:var(--muted)}.backtop{position:fixed;bottom:18px;right:18px;background:var(--blue);border:0;border-radius:50%;width:45px;height:45px;color:white;font-size:1.2rem;box-shadow:0 8px 25px #0005}
+@media(max-width:850px){.hero{grid-template-columns:1fr;padding-top:40px}.stats{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.sidebar{position:static;max-height:none}.navlinks{display:none}.grid2{grid-template-columns:1fr}.section{padding:18px}.termcontent{font-size:12px}}
+@media(max-width:420px){.wrap{padding:0 12px}.hero h1{font-size:2.4rem}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:1.25rem}.btn{width:100%}.actions{gap:8px}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav"><div class="brand"><div class="logo">D</div> Docker Academy</div><nav class="navlinks"><a href="#roadmap">Roadmap</a><a href="#commands">Commands</a><a href="#quiz">MCQ Practice</a><a href="#cheatsheet">Cheat sheet</a></nav><a class="btn" href="#quiz">Test yourself ↗</a></div></header>
+<main class="wrap">
+<section class="hero">
+<div><div class="eyebrow">Beginner → Exam-ready</div><h1>Learn Docker.<br><span>One concept at a time.</span></h1><p>A mobile-friendly Docker study guide with clear explanations, command examples, common exam traps, flashcards and a scored MCQ test. Learn the concepts, then practise applying them.</p><div class="actions"><a class="btn primary" href="#roadmap">Start learning →</a><a class="btn" href="#quiz">Take the MCQ test</a></div><p class="small">Works as a single offline HTML file. No framework or internet connection required.</p></div>
+<div class="terminal"><div class="termbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:8px">terminal — docker basics</span></div><div class="termcontent"><div><span class="prompt">$</span> <span class="cmd">docker pull nginx</span></div><div class="comment"># Download an image</div><div><span class="prompt">$</span> <span class="cmd">docker run -d -p 8080:80 --name web nginx</span></div><div class="comment"># Run a container in the background</div><div><span class="prompt">$</span> <span class="cmd">docker ps</span></div><div>CONTAINER ID&nbsp; IMAGE&nbsp;&nbsp; STATUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PORTS</div><div>abc123&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nginx&nbsp;&nbsp; Up 10 seconds&nbsp; 0.0.0.0:8080-&gt;80/tcp</div><div><span class="prompt">$</span> <span class="cmd">docker stop web</span></div><div class="comment"># Stop the container</div></div></div>
+</section>
+<div class="stats"><div class="stat"><strong>12</strong><span>Learning modules</span></div><div class="stat"><strong>60+</strong><span>Exam-style MCQs</span></div><div class="stat"><strong>20</strong><span>Flashcards</span></div><div class="stat"><strong>100%</strong><span>Single-file offline</span></div></div>
+<div class="layout">
+<aside class="sidebar"><div class="side-title">Your learning path</div><div class="small">Mark modules complete as you go.</div><div class="progressbar"><div id="progressFill"></div></div><div id="progressText" class="small">0 of 12 completed</div><hr style="border-color:var(--line);margin:14px 0"><a class="side-link" href="#roadmap"><span class="num">00</span> How to use this guide</a><a class="side-link" href="#fundamentals"><span class="num">01</span> Docker fundamentals</a><a class="side-link" href="#architecture"><span class="num">02</span> Architecture</a><a class="side-link" href="#images"><span class="num">03</span> Images & layers</a><a class="side-link" href="#containers"><span class="num">04</span> Containers & lifecycle</a><a class="side-link" href="#commands"><span class="num">05</span> CLI commands</a><a class="side-link" href="#dockerfile"><span class="num">06</span> Dockerfile</a><a class="side-link" href="#storage"><span class="num">07</span> Storage</a><a class="side-link" href="#networking"><span class="num">08</span> Networking</a><a class="side-link" href="#compose"><span class="num">09</span> Compose</a><a class="side-link" href="#security"><span class="num">10</span> Security & best practices</a><a class="side-link" href="#registry"><span class="num">11</span> Registries & troubleshooting</a><a class="side-link" href="#swarm"><span class="num">12</span> Swarm & advanced topics</a><a class="side-link" href="#cheatsheet"><span class="num">★</span> Cheat sheet</a><a class="side-link" href="#flashcards"><span class="num">◆</span> Flashcards</a><a class="side-link" href="#quiz"><span class="num">✓</span> MCQ practice</a></aside>
+<div class="content">
+<section class="section" id="roadmap"><span class="pill">START HERE</span><h2>How to study with Docker Academy</h2><p class="lead">Go in order for your first pass. Then use the command sheet, flashcards and mixed MCQ test to revise.</p><div class="grid2"><div class="mini"><h3>1. Understand</h3><p>Read each module and explain the concept in your own words. Docker questions often test the difference between similar terms.</p></div><div class="mini"><h3>2. Recall</h3><p>Use the flashcards without peeking. Active recall helps you retain command names and their effects.</p></div><div class="mini"><h3>3. Practise</h3><p>Take the MCQ test, read every explanation, and revisit the topics you missed.</p></div><div class="mini"><h3>4. Try commands safely</h3><p>Use a test project or disposable container. Commands such as <code>docker rm</code> and volume deletion can remove data.</p></div></div><div class="callout warn"><strong>Exam note:</strong> Docker evolves. This guide focuses on durable Docker Engine concepts and common CLI exam topics. Check your exam's syllabus for version-specific behaviour, especially Compose, BuildKit, and Docker Desktop.</div></section>
+
+<section class="section module" id="fundamentals"><span class="pill">MODULE 01</span><h2>Docker fundamentals</h2><p class="lead">Docker is a platform for building, distributing and running applications in containers.</p><div class="grid2"><div class="mini"><h3>Container</h3><p>An isolated running process (or group of processes) with its own filesystem view, networking and resource controls. It shares the host kernel.</p></div><div class="mini"><h3>Image</h3><p>A read-only, layered template used to create containers. An image is not itself a running application.</p></div><div class="mini"><h3>Dockerfile</h3><p>A text file containing instructions to build an image, such as <code>FROM</code>, <code>RUN</code> and <code>COPY</code>.</p></div><div class="mini"><h3>Registry</h3><p>A service that stores and distributes images. Docker Hub is a popular public registry; private registries are also common.</p></div></div><h3>Containers vs virtual machines</h3><div class="tablewrap"><table><thead><tr><th>Containers</th><th>Virtual machines</th></tr></thead><tbody><tr><td>Share the host OS kernel (on Linux).</td><td>Each VM runs its own guest OS kernel.</td></tr><tr><td>Usually start quickly and use fewer resources.</td><td>Usually have more overhead and boot a full guest OS.</td></tr><tr><td>Isolate processes using OS-level features.</td><td>Virtualize hardware through a hypervisor.</td></tr><tr><td>Isolation is strong but not identical to a separate VM.</td><td>Often provide a stronger OS boundary, depending on configuration.</td></tr></tbody></table></div><div class="callout good"><strong>Remember:</strong> A container is not a tiny virtual machine. It uses OS-level isolation and shares a kernel. On Windows or macOS, Docker Desktop commonly runs Linux containers inside a lightweight Linux VM.</div><h3>Why Docker?</h3><ul><li>Consistent packaging across development, testing and production.</li><li>Repeatable builds and easier deployment.</li><li>Process isolation, resource limits and portable image distribution.</li><li>Supports microservices and CI/CD workflows.</li></ul><label class="checkline"><input type="checkbox" class="module-check" data-module="fundamentals"> Mark module complete</label></section>
+
+<section class="section module" id="architecture"><span class="pill">MODULE 02</span><h2>Docker architecture</h2><p class="lead">The classic Docker Engine architecture uses a client-server model.</p><div class="grid2"><div class="mini"><h3>Docker CLI (client)</h3><p>What you type, e.g. <code>docker ps</code>. Sends API requests to the daemon.</p></div><div class="mini"><h3>Docker daemon (<code>dockerd</code>)</h3><p>Manages Docker objects such as images, containers, networks and volumes.</p></div><div class="mini"><h3>Docker Engine API</h3><p>Interface used by clients to communicate with the daemon, commonly over a Unix socket or configured endpoint.</p></div><div class="mini"><h3>containerd / OCI runtime</h3><p>Lower-level components help manage container lifecycle and start processes. <code>runc</code> is a widely used OCI runtime.</p></div></div><pre>YOU → docker CLI → Docker Engine API → dockerd
+                                  ↓
+                    images / containers / networks / volumes
+                                  ↓
+                         containerd → runc</pre><p>That diagram is simplified: the exact internals vary by version and setup. Docker Desktop adds desktop-managed components and a Linux VM for Linux containers on macOS/Windows.</p><h3>Docker objects</h3><ul><li><strong>Image:</strong> immutable template / layers.</li><li><strong>Container:</strong> created from an image, with a writable container layer.</li><li><strong>Network:</strong> connectivity between containers and external networks.</li><li><strong>Volume:</strong> persistent data managed by Docker.</li><li><strong>Context:</strong> configuration selecting which Docker endpoint the CLI talks to.</li></ul><div class="callout"><strong>Exam trap:</strong> The CLI is not the daemon. A client command usually asks the daemon to perform work; the CLI can also target a remote daemon via a context or endpoint.</div><label><input type="checkbox" class="module-check" data-module="architecture"> Mark module complete</label></section>
+
+<section class="section module" id="images"><span class="pill">MODULE 03</span><h2>Images, tags and layers</h2><p class="lead">Images are built from layers, which enable caching and reuse.</p><ul><li>Most Docker images consist of ordered, read-only layers.</li><li>A container adds a writable layer on top of its image layers.</li><li>Multiple containers can share the same underlying image layers.</li><li>Changing a file in a container's writable layer does not change the original image.</li><li>A tag such as <code>nginx:1.27</code> is a human-friendly reference; tags can move. A digest identifies content more precisely.</li></ul><h3>Image naming</h3><pre>[registry/][namespace/]repository[:tag][@digest]
+docker.io/library/nginx:latest
+ghcr.io/org/my-app:1.4.2</pre><p>If no registry is specified, Docker commonly defaults to Docker Hub. If a tag is omitted, the default tag is generally <code>latest</code>—but <code>latest</code> does not necessarily mean newest or safest.</p><h3>Build and inspect</h3><pre>docker pull nginx:alpine
+docker images
+docker image ls
+docker image inspect nginx:alpine
+docker history nginx:alpine
+docker build -t my-app:1.0 .
+docker tag my-app:1.0 username/my-app:1.0</pre><div class="callout warn"><strong>Important:</strong> Removing a tag does not necessarily delete the image's underlying layers if another tag or container still references them. Avoid relying on <code>latest</code> for reproducible production deployments.</div><label><input type="checkbox" class="module-check" data-module="images"> Mark module complete</label></section>
+
+<section class="section module" id="containers"><span class="pill">MODULE 04</span><h2>Containers and their lifecycle</h2><p class="lead">A container is created from an image and runs its configured main process.</p><pre>docker create --name demo nginx
+docker start demo
+docker ps                 # running containers
+docker ps -a              # all containers, including stopped
+docker stop demo          # graceful stop, then kill after timeout
+docker start demo         # start an existing stopped container
+docker restart demo
+docker rm demo            # remove a stopped container
+docker run --name web -d -p 8080:80 nginx</pre><h3>What does <code>docker run</code> do?</h3><p>Conceptually, it creates and starts a new container. Options can configure ports, environment, volumes, networks, restart policy and more.</p><div class="tablewrap"><table><thead><tr><th>Option</th><th>Meaning</th><th>Example</th></tr></thead><tbody><tr><td><code>-d</code></td><td>Detached/background mode</td><td><code>docker run -d nginx</code></td></tr><tr><td><code>-it</code></td><td>Interactive TTY (commonly combined)</td><td><code>docker run -it ubuntu sh</code></td></tr><tr><td><code>--name</code></td><td>Set a human-readable container name</td><td><code>--name web</code></td></tr><tr><td><code>--rm</code></td><td>Automatically remove container after it exits</td><td><code>docker run --rm alpine echo hi</code></td></tr><tr><td><code>-p HOST:CONTAINER</code></td><td>Publish a container port on the host</td><td><code>-p 8080:80</code></td></tr><tr><td><code>-e</code></td><td>Set an environment variable</td><td><code>-e MODE=dev</code></td></tr><tr><td><code>--mount</code> / <code>-v</code></td><td>Mount storage into the container</td><td><code>-v data:/data</code></td></tr></tbody></table></div><h3>Process and data behaviour</h3><ul><li>When a container's main process exits, the container stops; it is not automatically deleted unless configured (e.g. <code>--rm</code>).</li><li><code>docker exec</code> runs an additional command inside a running container.</li><li><code>docker attach</code> connects your terminal to the container's main process streams.</li><li><code>docker logs</code> displays logs available from the container logging configuration.</li><li>Stopping/removing a container does not remove a separately managed named volume by default.</li></ul><label><input type="checkbox" class="module-check" data-module="containers"> Mark module complete</label></section>
+
+<section class="section module" id="commands"><span class="pill">MODULE 05</span><h2>CLI commands you should know</h2><p class="lead">These are high-frequency commands in practical work and multiple-choice exams.</p><input id="commandSearch" class="search" placeholder="Search commands (e.g. logs, volume, prune)…" aria-label="Search commands"><div class="tablewrap"><table id="commandTable"><thead><tr><th>Command</th><th>Purpose</th><th>Exam note</th></tr></thead><tbody>
+<tr><td><code>docker run</code></td><td>Create and start a container</td><td>Commonly pulls image if unavailable, subject to pull policy and local state.</td></tr>
+<tr><td><code>docker create</code></td><td>Create without starting</td><td>Use <code>docker start</code> later.</td></tr>
+<tr><td><code>docker ps</code></td><td>List running containers</td><td><code>-a</code> includes stopped containers.</td></tr>
+<tr><td><code>docker exec</code></td><td>Run a command in a running container</td><td>Does not create a new container.</td></tr>
+<tr><td><code>docker attach</code></td><td>Attach to main process streams</td><td>Different from <code>exec</code>.</td></tr>
+<tr><td><code>docker logs</code></td><td>Fetch container logs</td><td><code>-f</code> follows new output.</td></tr>
+<tr><td><code>docker inspect</code></td><td>Detailed object configuration/state</td><td>Works for containers, images, networks, volumes and more.</td></tr>
+<tr><td><code>docker stats</code></td><td>Live resource usage statistics</td><td>CPU, memory, network and block I/O data.</td></tr>
+<tr><td><code>docker top</code></td><td>Show processes in a container</td><td>Process view, not image layers.</td></tr>
+<tr><td><code>docker cp</code></td><td>Copy files between host and container</td><td>Can copy to/from a container.</td></tr>
+<tr><td><code>docker diff</code></td><td>Show filesystem changes in container</td><td>A/C/D indicate added/changed/deleted paths.</td></tr>
+<tr><td><code>docker commit</code></td><td>Create an image from container changes</td><td>Not a substitute for a reproducible Dockerfile.</td></tr>
+<tr><td><code>docker build</code></td><td>Build an image from a Dockerfile/context</td><td><code>.</code> often means current directory is build context.</td></tr>
+<tr><td><code>docker pull / push</code></td><td>Download / upload image</td><td>Push usually needs registry authentication and permission.</td></tr>
+<tr><td><code>docker save / load</code></td><td>Save / load image archive(s)</td><td>Used to transfer images via tar archive.</td></tr>
+<tr><td><code>docker export / import</code></td><td>Export container filesystem / import tar as image</td><td>Does not preserve image history and layers like save/load.</td></tr>
+<tr><td><code>docker rm</code></td><td>Remove container</td><td>Normally container must be stopped unless forced.</td></tr>
+<tr><td><code>docker rmi</code></td><td>Remove image reference/image</td><td>May fail if referenced by containers.</td></tr>
+<tr><td><code>docker system df</code></td><td>Show Docker disk usage</td><td>Good first diagnostic.</td></tr>
+<tr><td><code>docker system prune</code></td><td>Remove selected unused resources</td><td>Read the prompt carefully; volume pruning is separate/explicit.</td></tr>
+<tr><td><code>docker version / info</code></td><td>Client/server versions / system information</td><td><code>version</code> can show both client and server.</td></tr>
+<tr><td><code>docker context ls/use</code></td><td>List/select Docker endpoints</td><td>Useful when targeting remote engines.</td></tr>
+<tr><td><code>docker compose up</code></td><td>Create/start multi-container app from Compose config</td><td><code>-d</code> runs detached.</td></tr>
+</tbody></table></div><h3>Useful operational patterns</h3><pre># Follow logs and show recent lines
+docker logs --tail 100 -f web
+
+# Open a shell in a running container (if shell exists)
+docker exec -it web sh
+
+# Inspect port mappings
+docker port web
+
+# Show all containers, including exited ones
+docker ps -a
+
+# Remove stopped containers (review before confirming)
+docker container prune
+
+# Show Docker resource usage
+docker system df</pre><div class="callout warn"><strong>Destructive commands:</strong> <code>docker system prune</code>, <code>docker volume prune</code>, <code>docker rm -f</code> and <code>docker volume rm</code> can remove resources or data. Check what will be deleted before confirming.</div><label><input type="checkbox" class="module-check" data-module="commands"> Mark module complete</label></section>
+
+<section class="section module" id="dockerfile"><span class="pill">MODULE 06</span><h2>Dockerfile essentials</h2><p class="lead">A Dockerfile describes how to build an image. The build context supplies files the build can access.</p><div class="tablewrap"><table><thead><tr><th>Instruction</th><th>Purpose</th><th>Key detail</th></tr></thead><tbody><tr><td><code>FROM</code></td><td>Choose a base image</td><td>Usually begins a build stage.</td></tr><tr><td><code>WORKDIR</code></td><td>Set working directory</td><td>Creates it if needed; affects later instructions.</td></tr><tr><td><code>COPY</code></td><td>Copy files from build context</td><td>Usually preferred for straightforward local file copying.</td></tr><tr><td><code>ADD</code></td><td>Copy files, with extra features</td><td>Can handle local tar extraction and supported remote sources; use COPY unless extra behavior is needed.</td></tr><tr><td><code>RUN</code></td><td>Execute build-time command</td><td>Creates image-layer changes.</td></tr><tr><td><code>ENV</code></td><td>Set environment variable in image</td><td>May persist in image metadata/config; don't put secrets here.</td></tr><tr><td><code>ARG</code></td><td>Build-time variable</td><td>Not designed for secrets; values may be exposed in build metadata/history.</td></tr><tr><td><code>EXPOSE</code></td><td>Document intended listening port</td><td>Does not publish a port on the host.</td></tr><tr><td><code>CMD</code></td><td>Default command/arguments</td><td>Can be overridden at runtime.</td></tr><tr><td><code>ENTRYPOINT</code></td><td>Configure executable</td><td>Often combined with CMD for default arguments.</td></tr><tr><td><code>USER</code></td><td>Set user for later runtime commands</td><td>Prefer non-root when practical.</td></tr><tr><td><code>VOLUME</code></td><td>Declare mount point</td><td>Does not itself provide a backup strategy.</td></tr><tr><td><code>HEALTHCHECK</code></td><td>Define health probe</td><td>Health status is distinct from process running state.</td></tr><tr><td><code>LABEL</code></td><td>Add metadata</td><td>Useful for ownership and version metadata.</td></tr></tbody></table></div><h3>Example Dockerfile</h3><button class="copy" data-copy="dockerfileCode">Copy</button><pre id="dockerfileCode">FROM node:22-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --omit=dev
+COPY . .
+ENV NODE_ENV=production
+USER node
+EXPOSE 3000
+CMD ["node", "server.js"]</pre><p class="small">Example only: it assumes your project has a compatible package-lock.json, server.js, and a node user in the selected base image. Adapt to your application.</p><h3>CMD vs ENTRYPOINT</h3><div class="grid2"><div class="mini"><h3>CMD</h3><p>Supplies the default command or default arguments. A command supplied after the image name to <code>docker run</code> normally replaces CMD.</p></div><div class="mini"><h3>ENTRYPOINT</h3><p>Sets the executable that runs as the container process. Runtime arguments are commonly passed to it; use exec form for predictable signal handling.</p></div></div><h3>Build context and cache</h3><pre>docker build -t demo:1.0 .
+# . is the build context
+# .dockerignore excludes unnecessary files from the context</pre><p>Order instructions to improve cache reuse: copy dependency manifests and install dependencies before copying frequently changing source files. Use multi-stage builds to keep build tools out of the final image when appropriate.</p><label><input type="checkbox" class="module-check" data-module="dockerfile"> Mark module complete</label></section>
+
+<section class="section module" id="storage"><span class="pill">MODULE 07</span><h2>Volumes, bind mounts and persistence</h2><p class="lead">A container's writable layer is ephemeral compared with dedicated storage.</p><div class="grid2"><div class="mini"><h3>Volume</h3><p>Managed by Docker. Good default for persistent application data. Can be named or anonymous.</p></div><div class="mini"><h3>Bind mount</h3><p>Maps a specific host path or file into a container. Useful for development and sharing host files.</p></div><div class="mini"><h3>tmpfs mount</h3><p>Stores data in host memory, not persistently on disk. Available in supported Linux environments.</p></div><div class="mini"><h3>Container layer</h3><p>Writable changes tied to the container lifecycle. Removing the container removes this layer.</p></div></div><pre># Create and inspect a named volume
+docker volume create app-data
+docker volume ls
+docker volume inspect app-data
+
+# Mount named volume at /var/lib/app
+docker run -d --name app --mount source=app-data,target=/var/lib/app nginx
+
+# Bind mount (host path syntax varies by OS)
+docker run --mount type=bind,source=/absolute/host/path,target=/app nginx
+
+# Remove a volume (only if no longer needed)
+docker volume rm app-data</pre><div class="callout good"><strong>Exam rule:</strong> Volumes are usually the recommended way to persist container-generated data. Bind mounts expose a chosen host path. Removing a container normally leaves named volumes in place.</div><p>Backups still matter: persistence is not the same as backup, replication or disaster recovery.</p><label><input type="checkbox" class="module-check" data-module="storage"> Mark module complete</label></section>
+
+<section class="section module" id="networking"><span class="pill">MODULE 08</span><h2>Docker networking and ports</h2><p class="lead">Networks let containers communicate. Published ports let traffic reach a container through a host port.</p><div class="tablewrap"><table><thead><tr><th>Network type</th><th>Typical use</th><th>Remember</th></tr></thead><tbody><tr><td>bridge</td><td>Common default for standalone containers</td><td>User-defined bridges provide automatic DNS resolution between attached containers by name.</td></tr><tr><td>host</td><td>Use host network namespace (platform-dependent)</td><td>Port publishing is generally unnecessary/ignored in host mode.</td></tr><tr><td>none</td><td>No normal container network connectivity</td><td>Loopback remains available inside the container.</td></tr><tr><td>overlay</td><td>Connect services across Docker Swarm nodes</td><td>Typically used for multi-host networks.</td></tr><tr><td>macvlan</td><td>Give containers a MAC address on a physical network</td><td>Requires network infrastructure/configuration.</td></tr></tbody></table></div><pre>docker network ls
+docker network create app-net
+docker network inspect app-net
+docker run -d --name db --network app-net postgres
+docker run -d --name api --network app-net my-api
+
+# Publish host port 8080 to container port 80
+docker run -d -p 8080:80 --name web nginx</pre><p><strong>Port mapping syntax:</strong> <code>-p HOST_PORT:CONTAINER_PORT</code>. Here, host port 8080 forwards to port 80 inside the container. <code>EXPOSE 80</code> in a Dockerfile is documentation; it does not create this mapping.</p><div class="callout"><strong>Common trap:</strong> Containers on the same user-defined bridge network can typically resolve one another by container name. From one container, <code>localhost</code> means that same container, not another container or the host.</div><label><input type="checkbox" class="module-check" data-module="networking"> Mark module complete</label></section>
+
+<section class="section module" id="compose"><span class="pill">MODULE 09</span><h2>Docker Compose</h2><p class="lead">Compose defines and manages a multi-container application using a YAML file, commonly <code>compose.yaml</code>.</p><pre>services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+  app:
+    build: .
+    environment:
+      APP_MODE: production
+    volumes:
+      - app-data:/data
+volumes:
+  app-data:</pre><h3>Common Compose commands</h3><pre>docker compose up             # create/start services
+docker compose up -d          # detached
+docker compose ps              # list project containers
+docker compose logs -f         # follow logs
+docker compose exec app sh     # run command in service container
+docker compose build           # build configured images
+docker compose down            # stop/remove project containers and networks
+docker compose down -v         # also remove declared named volumes: use caution</pre><ul><li>Services describe application components; Compose creates/manages their containers, networks and configured volumes.</li><li><code>depends_on</code> controls dependency/start order; by itself it does not guarantee that a dependency is ready to accept requests. Health checks and suitable conditions/logic may be needed.</li><li>Compose is for defining and operating multi-container apps; it is not the same as Docker Swarm orchestration.</li><li>Compose V2 uses the <code>docker compose</code> CLI plugin syntax. Older Compose V1 used <code>docker-compose</code>.</li></ul><label><input type="checkbox" class="module-check" data-module="compose"> Mark module complete</label></section>
+
+<section class="section module" id="security"><span class="pill">MODULE 10</span><h2>Security and best practices</h2><ul><li>Use trusted, maintained base images; pin versions or digests when reproducibility matters.</li><li>Run as a non-root user where practical; minimize Linux capabilities and privilege.</li><li>Avoid <code>--privileged</code> unless there is a specific, understood need.</li><li>Never bake passwords, API keys or private keys into Dockerfiles, image layers, or source control. Use a suitable secret-management mechanism.</li><li>Keep images small: use appropriate base images, multi-stage builds and <code>.dockerignore</code>.</li><li>Patch the host, Docker Engine, base images and dependencies. Scan images and review provenance where available.</li><li>Use resource limits where appropriate; don't assume containers automatically have safe CPU/memory limits.</li><li>Publish only required ports and restrict access. Understand that published ports may be reachable beyond the local machine depending on configuration.</li><li>Use read-only filesystems and drop capabilities when compatible with the workload.</li><li>Do not treat a container boundary as a replacement for host security or VM isolation in every threat model.</li></ul><div class="callout warn"><strong>Secret trap:</strong> <code>ARG</code> and <code>ENV</code> are not secure secret stores. BuildKit secret mounts or a dedicated secret manager are better options for sensitive build/runtime secrets.</div><label><input type="checkbox" class="module-check" data-module="security"> Mark module complete</label></section>
+
+<section class="section module" id="registry"><span class="pill">MODULE 11</span><h2>Registries, troubleshooting and cleanup</h2><h3>Registry workflow</h3><pre>docker login
+docker pull nginx:alpine
+docker tag my-app:1.0 username/my-app:1.0
+docker push username/my-app:1.0
+docker logout</pre><p>A registry stores images. A repository groups image versions/tags. Authentication proves identity; authorization determines what you can access. Never paste registry passwords or tokens into shared logs.</p><h3>First-line troubleshooting</h3><pre>docker ps -a                 # is it running or exited?
+docker logs my-container      # what did the app print?
+docker inspect my-container   # configuration and state
+docker exec -it my-container sh
+docker stats                  # resource usage
+docker port my-container      # published ports
+docker network ls
+docker volume ls
+docker system df              # disk usage</pre><div class="tablewrap"><table><thead><tr><th>Symptom</th><th>Possible cause / next check</th></tr></thead><tbody><tr><td>Container exits immediately</td><td>Main process ended or failed. Check <code>docker logs</code>, exit code and command.</td></tr><tr><td>Cannot connect to app</td><td>Check app bind address, internal port, <code>-p</code> mapping, firewall and network.</td></tr><tr><td>Image pull denied</td><td>Check image name/tag, registry reachability, login and permissions.</td></tr><tr><td>Build cannot find file</td><td>Check build context, path, .dockerignore and COPY source paths.</td></tr><tr><td>Out of disk space</td><td>Check <code>docker system df</code>; remove only confirmed-unused resources.</td></tr><tr><td>Container cannot resolve another name</td><td>Check both containers share a user-defined network and DNS/name configuration.</td></tr></tbody></table></div><h3>Save vs export — a classic MCQ</h3><div class="grid2"><div class="mini"><h3><code>docker save</code></h3><p>Saves image(s), including layers and image metadata, to an archive. Pair with <code>docker load</code>.</p></div><div class="mini"><h3><code>docker export</code></h3><p>Exports a container filesystem as a tar stream; it does not preserve image layers/history. Pair with <code>docker import</code>.</p></div></div><label><input type="checkbox" class="module-check" data-module="registry"> Mark module complete</label></section>
+
+<section class="section module" id="swarm"><span class="pill">MODULE 12</span><h2>Swarm, health checks, resources and advanced concepts</h2><h3>Docker Swarm</h3><ul><li>Swarm is Docker Engine's native clustering/orchestration mode.</li><li><strong>Manager nodes</strong> maintain cluster state and schedule tasks; <strong>worker nodes</strong> run assigned tasks. Managers can also run workloads.</li><li>A <strong>service</strong> defines desired state, such as image and replica count. A task is a unit of work scheduled by Swarm, usually a container.</li><li>Swarm supports service scaling, rolling updates, overlay networks and service discovery.</li><li>Swarm mode is different from Kubernetes and is not required for ordinary single-host Docker use.</li></ul><pre>docker swarm init
+docker node ls                 # run on a manager
+docker service create --name web --replicas 3 -p 8080:80 nginx
+docker service ls
+docker service scale web=5
+docker service rm web</pre><h3>Health and restart policies</h3><ul><li>A process can be running but unhealthy. Health status is distinct from container running state.</li><li><code>HEALTHCHECK</code> defines how Docker tests container health; the app image must provide a suitable probe command.</li><li>Restart policies include <code>no</code>, <code>on-failure</code>, <code>always</code> and <code>unless-stopped</code>. They control restart behavior, not application correctness.</li><li>Resource controls can set CPU/memory limits, e.g. <code>--memory</code> and <code>--cpus</code>, subject to platform support.</li></ul><pre>docker run -d --name limited --memory=512m --cpus=1 nginx
+docker update --restart unless-stopped web</pre><h3>BuildKit and multi-stage builds</h3><ul><li>BuildKit is a modern build backend with features such as improved caching, parallel build steps, and secret/SSH mounts.</li><li>Multi-stage builds use multiple <code>FROM</code> stages and copy only selected artifacts into a final stage.</li><li>Build cache improves speed; cache is not a guarantee that a build will always reuse every step.</li></ul><label><input type="checkbox" class="module-check" data-module="swarm"> Mark module complete</label></section>
+
+<section class="section" id="cheatsheet"><span class="pill">QUICK REVISION</span><h2>Docker command cheat sheet</h2><p class="lead">Search, copy and revise these before the exam.</p><button class="copy" data-copy="cheatCode">Copy all</button><pre id="cheatCode"># Images
+docker pull IMAGE
+docker images
+docker build -t NAME:TAG .
+docker image inspect IMAGE
+docker history IMAGE
+docker push NAME:TAG
+
+# Containers
+docker run -d --name NAME -p 8080:80 IMAGE
+docker ps
+docker ps -a
+docker stop NAME
+docker start NAME
+docker restart NAME
+docker rm NAME
+docker exec -it NAME sh
+docker logs -f NAME
+docker inspect NAME
+docker stats
+
+# Storage / networks
+docker volume ls
+docker volume create DATA
+docker network ls
+docker network create NET
+docker port NAME
+
+# Compose
+docker compose up -d
+docker compose ps
+docker compose logs -f
+docker compose exec SERVICE sh
+docker compose down
+
+# Diagnostics / transfer
+docker system df
+docker system prune
+docker save -o image.tar IMAGE
+docker load -i image.tar
+docker export CONTAINER -o filesystem.tar
+docker import filesystem.tar NEW_IMAGE</pre><div class="callout"><strong>Quick distinctions:</strong> <code>ps</code> = running containers; <code>ps -a</code> = all containers. <code>EXPOSE</code> documents a port; <code>-p</code> publishes it. <code>exec</code> runs a new process in a running container; <code>attach</code> connects to the main process. <code>save/load</code> are image archive commands; <code>export/import</code> are filesystem-oriented commands.</div></section>
+
+<section class="section" id="flashcards"><span class="pill">ACTIVE RECALL</span><h2>Flashcards</h2><p class="lead">Try to answer first, then reveal. There are 20 cards.</p><div id="flashcardArea" class="flashcard"><div class="quiz-head"><span id="cardCount">Card 1 of 20</span><span>Flashcards</span></div><div class="question" id="cardQ"></div><div class="answer" id="cardA"></div><div class="quiz-controls"><button class="btn primary" id="revealCard">Reveal answer</button><button class="btn" id="prevCard">← Previous</button><button class="btn" id="nextCard">Next →</button><button class="btn" id="shuffleCards">Shuffle</button></div></div></section>
+
+<section class="section" id="quiz"><span class="pill">EXAM PRACTICE</span><h2>Docker MCQ test</h2><p class="lead">60 questions, one answer per question. Select an option to see feedback, then move on. Your score is calculated at the end.</p><div class="quiz-head"><span id="quizProgress">Question 1 of 60</span><span id="quizScore">Score: 0</span></div><div class="progressbar"><div id="quizFill"></div></div><div id="quizStage"><div class="question" id="questionText"></div><div class="options" id="options"></div><div id="feedback" class="feedback hidden" aria-live="polite"></div><div class="quiz-controls"><button class="btn" id="prevQuestion">← Previous</button><button class="btn primary" id="nextQuestion">Next question →</button></div></div><div id="quizResult" class="hidden"><h3 id="resultTitle"></h3><p id="resultSummary"></p><div id="reviewMissed"></div><div class="quiz-controls"><button class="btn primary" id="restartQuiz">Retake test</button><button class="btn" id="retryMissed">Practise missed questions</button></div></div></section>
+
+<section class="section"><h2>Final exam checklist</h2><p class="lead">Can you answer these without looking at the notes?</p><div class="checklist"><label><input type="checkbox"> Explain image vs container and container vs VM.</label><label><input type="checkbox"> Describe CLI, daemon, Engine API and container runtime at a high level.</label><label><input type="checkbox"> Know the purpose of run, create, start, stop, exec, attach, logs, inspect, rm and rmi.</label><label><input type="checkbox"> Understand Dockerfile instructions, especially RUN, CMD, ENTRYPOINT, COPY, ADD and EXPOSE.</label><label><input type="checkbox"> Distinguish volumes, bind mounts and the container writable layer.</label><label><input type="checkbox"> Explain bridge, host, none and overlay networking and port publishing.</label><label><input type="checkbox"> Know Compose basics and what depends_on does not guarantee.</label><label><input type="checkbox"> Distinguish save/load from export/import.</label><label><input type="checkbox"> Understand registry authentication, tags, digests and safe cleanup.</label><label><input type="checkbox"> Know basic Swarm terms, health checks, restart policies and security practices.</label></div></section>
+</div></div>
+</main>
+<footer><div class="wrap">Docker Academy · A self-contained learning resource. For authoritative reference, consult <a href="https://docs.docker.com/" target="_blank" rel="noopener">Docker Documentation</a>.<br><span class="small">This guide is educational; exact behavior can depend on Docker version, OS, configuration and permissions.</span></div></footer>
+<button class="backtop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+<script>
+const flashcards=[
+["What is a Docker image?","A read-only layered template used to create containers."],
+["What is a container?","An isolated running process environment created from an image, with a writable layer."],
+["What does the Docker daemon do?","It manages Docker objects and handles requests from clients."],
+["What does docker ps show by default?","Running containers. Use docker ps -a to include stopped containers."],
+["What does docker exec do?","Runs an additional command inside an already-running container."],
+["What is the difference between CMD and ENTRYPOINT?","CMD supplies default command/arguments; ENTRYPOINT configures the executable. Runtime arguments can replace CMD or be passed to an exec-form ENTRYPOINT."],
+["Does EXPOSE publish a port to the host?","No. It documents an intended container port. Use -p to publish/map a port."],
+["What is a Docker volume?","Docker-managed storage intended to persist independently of a container's writable layer."],
+["What is a bind mount?","A mount that maps a specific host file or directory into a container."],
+["What is a build context?","The set of files available to the builder for a build, commonly the directory passed to docker build."],
+["What is .dockerignore for?","Excluding files from the build context."],
+["What does docker compose up -d do?","Creates/starts the Compose application's services in detached mode."],
+["Does depends_on guarantee a service is ready?","Not by itself; it primarily controls dependency/start order unless additional health/readiness configuration is used."],
+["What does docker stop do?","Requests graceful termination, then sends a kill signal after the configured timeout if needed."],
+["What is the difference between save and export?","save archives image(s) with image layers/metadata; export archives a container filesystem."],
+["What does docker pull do?","Downloads an image from a registry."],
+["What does docker push do?","Uploads an image to a registry, assuming access and authentication are sufficient."],
+["What does docker system df show?","Docker disk usage."],
+["What is Docker Swarm?","Docker Engine's native clustering and orchestration mode."],
+["Why should secrets not be stored in ARG or ENV?","They can be exposed through image configuration, build metadata or layers; use an appropriate secret mechanism."]
+];
+let cardOrder=flashcards.map((_,i)=>i),cardIndex=0;
+function renderCard(){let c=flashcards[cardOrder[cardIndex]];document.getElementById('cardCount').textContent=`Card ${cardIndex+1} of ${cardOrder.length}`;document.getElementById('cardQ').textContent=c[0];document.getElementById('cardA').textContent=c[1];document.getElementById('flashcardArea').classList.remove('revealed');document.getElementById('revealCard').textContent='Reveal answer'}
+document.getElementById('revealCard').onclick=()=>{document.getElementById('flashcardArea').classList.toggle('revealed');document.getElementById('revealCard').textContent=document.getElementById('flashcardArea').classList.contains('revealed')?'Hide answer':'Reveal answer'};
+document.getElementById('prevCard').onclick=()=>{cardIndex=(cardIndex-1+cardOrder.length)%cardOrder.length;renderCard()};
+document.getElementById('nextCard').onclick=()=>{cardIndex=(cardIndex+1)%cardOrder.length;renderCard()};
+document.getElementById('shuffleCards').onclick=()=>{for(let i=cardOrder.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[cardOrder[i],cardOrder[j]]=[cardOrder[j],cardOrder[i]]}cardIndex=0;renderCard()};renderCard();
+const Q=(q,opts,correct,why,topic)=>({q,opts,correct,why,topic});
+const questions=[
+Q("Which statement best describes a Docker image?",["A running virtual machine","A read-only template used to create containers","A Docker network","A host process"],1,"An image is a layered template; a container is created from it.","fundamentals"),
+Q("Which command lists only running containers by default?",["docker images","docker ps","docker ps -a","docker volume ls"],1,"docker ps lists running containers; -a includes stopped containers.","commands"),
+Q("Which command includes stopped containers?",["docker ps -a","docker images -a","docker run -a","docker inspect -a"],0,"The -a option on docker ps shows all containers.","commands"),
+Q("Which component manages containers, images, networks and volumes?",["Docker daemon (dockerd)","Dockerfile","Docker Hub","A container image"],0,"The daemon manages Docker objects and responds to API requests.","architecture"),
+Q("What does docker pull nginx do?",["Starts a container named nginx","Downloads the nginx image","Publishes port 80","Deletes old images"],1,"pull downloads an image from a registry.","images"),
+Q("What does docker run generally do?",["Only downloads source code","Creates and starts a container","Only lists containers","Always deletes a container after exit"],1,"docker run creates and starts a new container; options alter its behavior.","containers"),
+Q("What is the purpose of docker exec?",["Build an image","Run a command in an existing running container","Attach a volume to every container","Upload an image"],1,"exec runs an additional process inside a running container.","commands"),
+Q("Which option runs a container in detached mode?",["-it","-d","-p","-e"],1,"-d runs in the background, detached from the terminal.","containers"),
+Q("In -p 8080:80, what do the numbers mean?",["Container 8080 → host 80","Host 8080 → container 80","Both are host ports","Both are image tags"],1,"Port mapping is HOST_PORT:CONTAINER_PORT.","networking"),
+Q("Does Dockerfile EXPOSE 80 automatically publish port 80 on the host?",["Yes, always","No, it documents an intended port","Only on Windows","Only with Compose"],1,"Use -p or a Compose ports mapping to publish a port.","dockerfile"),
+Q("Which instruction selects a base image?",["RUN","COPY","FROM","EXPOSE"],2,"FROM starts a build stage and selects its base image.","dockerfile"),
+Q("Which Dockerfile instruction executes a command during image build?",["RUN","CMD","EXPOSE","USER"],0,"RUN executes build-time commands and contributes to image layers.","dockerfile"),
+Q("Which instruction copies files from the build context?",["COPY","PUSH","MOUNT","EXEC"],0,"COPY copies files from the build context into the image.","dockerfile"),
+Q("What is .dockerignore used for?",["Ignoring runtime logs only","Excluding files from the build context","Ignoring stopped containers","Disabling image layers"],1,"It keeps unwanted files out of the build context.","dockerfile"),
+Q("Which is usually the best default for persistent container data?",["Container writable layer","Named Docker volume","Temporary shell variable","Image tag"],1,"Volumes persist separately from a container's writable layer.","storage"),
+Q("What is a bind mount?",["A registry mirror","A host path mounted into a container","A container restart policy","A Dockerfile stage"],1,"Bind mounts map a specific host path into a container.","storage"),
+Q("What normally happens to a named volume when its container is removed?",["It is always deleted","It normally remains","It becomes an image","It is uploaded to Docker Hub"],1,"Named volumes are separate Docker-managed objects and normally remain.","storage"),
+Q("Which command displays container logs?",["docker logs","docker history","docker diff","docker tag"],0,"docker logs retrieves output captured by the logging configuration.","commands"),
+Q("Which command gives detailed low-level information about an object?",["docker inspect","docker search","docker login","docker attach"],0,"inspect provides detailed object configuration and state.","commands"),
+Q("Which command shows live resource usage?",["docker stats","docker history","docker commit","docker save"],0,"docker stats reports live resource metrics.","commands"),
+Q("What does docker stop do first?",["Immediately deletes the container","Requests graceful termination, then may kill after a timeout","Removes the image","Exports the filesystem"],1,"Docker sends a stop signal and then a kill signal if the timeout expires.","containers"),
+Q("What does docker rm normally remove?",["A container","A registry account","A Dockerfile","The host operating system"],0,"docker rm removes a container; rmi is used for image removal.","commands"),
+Q("Which command removes an image?",["docker rmi","docker rm","docker stop","docker unpause"],0,"rmi removes image references/images where possible.","commands"),
+Q("What does docker build -t demo:1.0 . mean?",["Build and tag an image using the current directory as context","Start all containers","Push to Docker Hub","Create a named volume"],0,"The dot is commonly the build context directory; -t sets name/tag.","images"),
+Q("What does the tag latest guarantee?",["It is the newest secure image","It is the highest semantic version","Nothing about freshness; it is just a tag","It cannot change"],2,"Tags can be moved; latest is not a freshness or security guarantee.","images"),
+Q("Which pair transfers image archives?",["docker save and docker load","docker export and docker import only","docker stop and docker start","docker cp and docker diff"],0,"save/load preserve image layers and metadata in an image archive.","registry"),
+Q("Which pair works with a container filesystem tar export?",["docker save / docker load","docker export / docker import","docker pull / docker push","docker run / docker create"],1,"export produces a container filesystem archive; import creates an image from it.","registry"),
+Q("What is a registry used for?",["Storing and distributing images","Running every container process","Replacing the Docker daemon","Writing CSS"],0,"Registries host and distribute container images.","registry"),
+Q("What does docker login help with?",["Authenticating to a registry","Starting the daemon","Creating a network","Listing volumes"],0,"Login authenticates to a registry; permissions still determine access.","registry"),
+Q("Which network is commonly used as the default for standalone containers?",["bridge","overlay","none","macvlan only"],0,"The default bridge is common for standalone containers; user-defined bridges add DNS-based discovery.","networking"),
+Q("Which network is designed for multi-host connectivity in Swarm?",["none","overlay","host only","loopback"],1,"Overlay networks can connect services across Swarm nodes.","networking"),
+Q("Inside a container, localhost normally refers to what?",["The Docker Hub registry","The same container's network namespace","The host's public IP","Every container on the network"],1,"localhost refers to the current container itself.","networking"),
+Q("Which statement about user-defined bridge networks is correct?",["Containers can generally resolve each other by name","They cannot connect containers","They publish all ports automatically","They require Kubernetes"],0,"Docker provides automatic name resolution for containers on a user-defined bridge.","networking"),
+Q("Which command creates a Docker network?",["docker network create","docker image create","docker context build","docker port create"],0,"Use docker network create NAME.","networking"),
+Q("What does Docker Compose primarily help manage?",["Multi-container applications defined in YAML","Only virtual machines","Only registry accounts","Host BIOS settings"],0,"Compose defines and operates multi-container applications.","compose"),
+Q("Which is the modern Compose CLI form?",["docker-compose only","docker compose","compose docker","dockerd compose"],1,"Compose V2 is integrated as the docker compose CLI plugin.","compose"),
+Q("Does depends_on alone guarantee the dependency application is ready?",["Yes, in every configuration","No, it mainly handles ordering unless readiness conditions are configured","It always waits 10 minutes","It deletes the dependency"],1,"Start order is not the same as application readiness.","compose"),
+Q("Which command runs Compose services in the background?",["docker compose up -d","docker compose down","docker compose rm only","docker compose config --stop"],0,"up -d starts the configured services in detached mode.","compose"),
+Q("Which command also removes declared named volumes for a Compose project?",["docker compose down -v","docker compose ps","docker compose logs","docker compose build"],0,"-v removes declared named volumes and anonymous volumes attached to containers; use carefully.","compose"),
+Q("Which instruction sets a working directory in a Dockerfile?",["WORKDIR","PWDONLY","DIR","CHDIR"],0,"WORKDIR sets the working directory for later instructions.","dockerfile"),
+Q("Which is a good use of multi-stage builds?",["Include every compiler in the final image","Keep build tools out of a smaller final image","Expose all ports automatically","Disable image caching permanently"],1,"A final stage can copy only required artifacts from a build stage.","dockerfile"),
+Q("Which is NOT a safe place to store secrets?",["A dedicated secret manager","BuildKit secret mount","Dockerfile ENV value committed into an image","A properly configured runtime secret system"],2,"Image ENV/config and build metadata can expose secrets; use secret mechanisms.","security"),
+Q("Why run a container as a non-root user when practical?",["To reduce privilege","To make it a virtual machine","To publish every port","To bypass authentication"],0,"Least privilege reduces the impact of compromise.","security"),
+Q("What is the effect of --privileged?",["Grants broad additional privileges to the container","Makes the image smaller","Enables automatic backups","Only changes its name"],0,"Privileged mode greatly relaxes isolation and should be avoided unless required.","security"),
+Q("What does docker system df show?",["Docker disk usage","CPU architecture only","Registry password","Container network DNS"],0,"It summarizes disk usage by Docker objects.","commands"),
+Q("What should you do before running a prune command?",["Check which unused resources will be removed","Assume all data is backed up","Stop the host OS","Push every volume"],0,"Prune commands can remove unused resources; inspect the scope and prompts.","security"),
+Q("What does docker diff show?",["Changes to a container's filesystem relative to its image","Network latency","Image build time only","Registry tags"],0,"diff lists added, changed and deleted paths in the container filesystem.","commands"),
+Q("What does docker cp do?",["Copy files between host and container","Create a registry","Build an image","Change a container's kernel"],0,"docker cp copies files/folders to or from a container.","commands"),
+Q("What does a container's main process exiting normally cause?",["The container to stop","The image to be deleted","The registry to shut down","Every container to stop"],0,"Container lifecycle is tied to its configured main process.","containers"),
+Q("Which is true about containers and VMs?",["Containers always include a full guest OS kernel","Linux containers share the host kernel","Containers cannot be isolated","VMs never run Linux"],1,"Linux containers share the host kernel; VMs run a guest OS kernel.","fundamentals"),
+Q("Which component is a commonly used OCI runtime?",["runc","Dockerfile","Compose YAML","Docker Hub"],0,"runc is a widely used low-level OCI runtime.","architecture"),
+Q("What is a Docker context?",["A selected endpoint/configuration for Docker CLI connections","A writable image layer","A registry repository","A Compose service"],0,"Contexts help the CLI target different Docker endpoints.","architecture"),
+Q("What is a Swarm manager responsible for?",["Maintaining cluster state and scheduling tasks","Only building CSS files","Storing every image permanently","Replacing all container images"],0,"Managers maintain cluster state and schedule workloads; they may also run tasks.","swarm"),
+Q("In Swarm, what does a service specify?",["Desired workload configuration, often including replicas","A Dockerfile syntax error","A host-only network namespace","A local browser tab"],0,"Services declare desired state; Swarm schedules tasks to meet it.","swarm"),
+Q("Can a running container be unhealthy?",["Yes; running and health status are different","No, running always means healthy","Only on Windows","Only if it has no image"],0,"A process can be running while its health check fails.","swarm"),
+Q("Which restart policy tries to restart a container unless it was explicitly stopped?",["unless-stopped","never-ever","pull-always","image-only"],0,"unless-stopped is a supported restart policy.","swarm"),
+Q("Which command can show processes running inside a container?",["docker top","docker history","docker tag","docker login"],0,"docker top shows the container's processes.","commands"),
+Q("What is the main purpose of a Dockerfile CMD instruction?",["Provide a default command or arguments","Publish a port","Create a registry","Mount a host directory"],0,"CMD sets defaults that can be overridden by runtime command arguments.","dockerfile"),
+Q("What is the main purpose of ENTRYPOINT?",["Configure the executable for the container","Name a Docker context","Delete a volume","Set the host port"],0,"ENTRYPOINT configures the executable; arguments may be supplied at runtime.","dockerfile"),
+Q("Which command creates an image from a container's changed state?",["docker commit","docker pull","docker stop","docker port"],0,"commit creates an image from a container; Dockerfiles are generally more reproducible.","images"),
+Q("Which command lists Docker volumes?",["docker volume ls","docker volumes show-all-now","docker ps -v","docker image volume"],0,"docker volume ls lists volumes.","storage"),
+Q("What is the role of an image digest?",["A content-addressable identifier for image content","A command to stop containers","A writable container filesystem","A Docker network mode"],0,"Digests identify content more precisely than mutable human-friendly tags.","images"),
+Q("Which command shows port mappings for a container?",["docker port","docker map","docker expose","docker route"],0,"docker port displays published port mappings.","networking"),
+Q("Which option sets a container environment variable at runtime?",["-e","-p","-d","-a"],0,"Use -e KEY=value or --env.","containers"),
+Q("What is the purpose of a health check?",["Assess whether an application is healthy using a configured probe","Guarantee zero bugs","Back up all data","Automatically publish ports"],0,"Health checks report health state; they don't guarantee application correctness.","swarm"),
+Q("Which is the best description of a Docker volume?",["Persistent Docker-managed storage, separate from a container layer","An image tag","A port mapping","A registry login"],0,"Volumes can outlive containers and are suitable for persistent data.","storage")
+];
+let current=0,answers=Array(questions.length).fill(null),quizList=questions.map((_,i)=>i),missedMode=false;
+const $=id=>document.getElementById(id);
+function renderQuestion(){let q=questions[quizList[current]]; $('quizProgress').textContent=`Question ${current+1} of ${quizList.length}`;$('quizScore').textContent=`Score: ${answers.filter((a,i)=>a!==null&&a===questions[i].correct).length}`;$('quizFill').style.width=((current+1)/quizList.length*100)+'%';$('questionText').textContent=q.q;$('options').innerHTML='';q.opts.forEach((opt,i)=>{let b=document.createElement('button');b.className='option';b.textContent=String.fromCharCode(65+i)+'. '+opt;b.onclick=()=>chooseAnswer(i);if(answers[quizList[current]]!==null){b.disabled=true;if(i===q.correct)b.classList.add('correct');else if(i===answers[quizList[current]])b.classList.add('wrong')} $('options').appendChild(b)});let fb=$('feedback');if(answers[quizList[current]]!==null){fb.classList.remove('hidden');fb.textContent=(answers[quizList[current]]===q.correct?'Correct! ':'Not quite. ')+q.why}else{fb.classList.add('hidden');fb.textContent=''}$('prevQuestion').disabled=current===0;$('nextQuestion').textContent=current===quizList.length-1?'Finish test':'Next question →';$('quizStage').classList.remove('hidden');$('quizResult').classList.add('hidden')}
+function chooseAnswer(i){let q=questions[quizList[current]];answers[quizList[current]]=i;renderQuestion()}
+$('prevQuestion').onclick=()=>{if(current>0){current--;renderQuestion()}};
+$('nextQuestion').onclick=()=>{if(current<quizList.length-1){current++;renderQuestion()}else finishQuiz()};
+function finishQuiz(){ $('quizStage').classList.add('hidden');$('quizResult').classList.remove('hidden');let done=quizList.filter(i=>answers[i]!==null).length,score=quizList.filter(i=>answers[i]===questions[i].correct).length,percent=Math.round(score/quizList.length*100);$('resultTitle').textContent=percent>=85?'Excellent work!':percent>=65?'Good progress — revise a few topics.':'Keep practising — review the explanations and try again.';$('resultSummary').textContent=`You scored ${score} out of ${quizList.length} (${percent}%). Answered ${done} of ${quizList.length} questions.`;let missed=quizList.filter(i=>answers[i]!==questions[i].correct);$('reviewMissed').innerHTML=missed.length?'<h3>Review these topics</h3>'+missed.map(i=>`<div class="mini" style="margin:10px 0"><strong>${escapeHtml(questions[i].q)}</strong><p class="small">Correct answer: ${escapeHtml(questions[i].opts[questions[i].correct])}</p><p>${escapeHtml(questions[i].why)}</p><span class="tag">${escapeHtml(questions[i].topic)}</span></div>`).join(''):'<div class="callout good">Perfect score — well done!</div>';$('retryMissed').disabled=!missed.length}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function resetQuiz(indices){answers=Array(questions.length).fill(null);quizList=indices.slice();current=0;renderQuestion()}
+$('restartQuiz').onclick=()=>resetQuiz(questions.map((_,i)=>i));$('retryMissed').onclick=()=>{let missed=quizList.filter(i=>answers[i]!==questions[i].correct);if(missed.length)resetQuiz(missed)};
+renderQuestion();
+document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{let el=$(b.dataset.copy);try{await navigator.clipboard.writeText(el.innerText);b.textContent='Copied!';setTimeout(()=>b.textContent=b.dataset.copy==='cheatCode'?'Copy all':'Copy',1300)}catch(e){b.textContent='Select and copy';}}));
+$('commandSearch').addEventListener('input',e=>{let term=e.target.value.toLowerCase();document.querySelectorAll('#commandTable tbody tr').forEach(r=>r.style.display=r.innerText.toLowerCase().includes(term)?'':'none')});
+const moduleChecks=[...document.querySelectorAll('.module-check')];
+function updateProgress(){let n=moduleChecks.filter(c=>c.checked).length;$('progressFill').style.width=(n/moduleChecks.length*100)+'%';$('progressText').textContent=`${n} of ${moduleChecks.length} completed`}
+moduleChecks.forEach(c=>c.addEventListener('change',updateProgress));updateProgress();
+</script>
+</body>
+</html>
